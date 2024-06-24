@@ -1,23 +1,28 @@
 <?php
 
-$articles = [
-    [
-        "title"   => "First post",
-        "content" => "This is the first of many posts!"
-    ],
-    [
-        "title"   => "Another post",
-        "content" => "Yet another fascinating post..."
-    ],
-    [
-        "title"   => "Read this!",
-        "content" => "You must read this now, it's essential reading!"
-    ],
-    [
-        "title"   => "The latest news",
-        "content" => "Here's the latest news, read it now"
-    ]
-];
+$db_host = "localhost";
+$db_name = "cms";
+$db_user = "test";
+$db_pass = "Password@12345";
+
+$conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+
+if (mysqli_connect_error()) {
+    echo mysqli_connect_error();
+    exit;
+}
+
+$sql = "SELECT *
+        FROM article;";
+
+$results = mysqli_query($conn, $sql);
+
+if ($results === false) {
+    echo mysqli_error($conn);
+} else {
+    $articles = mysqli_fetch_all($results, MYSQLI_ASSOC);
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,16 +37,22 @@ $articles = [
     </header>
 
     <main>
-        <ul>
-            <?php foreach ($articles as $article): ?>
-                <li>
-                    <article>
-                        <h2><?= $article['title']; ?></h2>
-                        <p><?= $article['content']; ?></p>
-                    </article>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+        <?php if (empty($articles)): ?>
+            <p>No articles found.</p>
+        <?php else: ?>
+
+            <ul>
+                <?php foreach ($articles as $article): ?>
+                    <li>
+                        <article>
+                            <h2><?= $article['title']; ?></h2>
+                            <p><?= $article['content']; ?></p>
+                        </article>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+
+        <?php endif; ?>
     </main>
 </body>
 </html>
