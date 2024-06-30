@@ -16,8 +16,8 @@ class Database
     {
         $db_host = "localhost";
         $db_name = "cms";
-        $db_user = "test";
-        $db_pass = "Password@12345";
+        $db_user = "cms_www";
+        $db_pass = "64w6H2rOJ1zwLRyk";
 
         $dsn = 'mysql:host=' . $db_host . ';dbname=' . $db_name . ';charset=utf8';
 
